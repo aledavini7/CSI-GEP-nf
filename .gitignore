@@ -1,0 +1,18 @@
+# Original reference repo
+CSI-GEP/
+
+# Nextflow execution
+work/
+.nextflow*
+.nextflow.log*
+
+# Outputs
+results/
+
+# Test / temporary data
+test_files/
+test_small*.h5ad
+*.h5ad
+
+# Optional: system/editor junk
+.DS_Store
