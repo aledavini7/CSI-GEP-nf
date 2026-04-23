@@ -12,8 +12,16 @@ workflow {
         error "Please provide --input_h5ad"
     }
 
+    if( params.k_min > params.k_max ) {
+        error "Please provide k_min <= k_max"
+    }
+
+    if( params.k_step < 1 ) {
+        error "Please provide k_step >= 1"
+    }
+
     counts_ch   = Channel.fromPath(params.input_h5ad)
-    k_values    = params.k_list.tokenize(',').collect { it.trim() as Integer }
+    k_values    = (params.k_min..params.k_max).step(params.k_step).toList()
     k_ch        = Channel.of(*k_values)
 
     prepare_out = PREPARE(counts_ch)

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com///nextflow_schema.json",
+  "title": "CSI-GEP-nf",
+  "description": "Schema for the CSI-GEP Nextflow pipeline",
+  "type": "object",
+  "$defs": {
+    "input_output_options": {
+      "title": "Input/output options",
+      "type": "object",
+      "fa_icon": "fas fa-terminal",
+      "description": "Define where the pipeline should find input data and save output data.",
+      "required": ["outdir", "input_h5ad"],
+      "properties": {
+        "outdir": {
+          "type": "string",
+          "format": "directory-path",
+          "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
+          "fa_icon": "fas fa-folder-open",
+          "default": "results"
+        },
+        "input_h5ad": {
+          "type": "string",
+          "format": "file-path",
+          "description": "Input scRNA-seq counts matrix in .h5ad format."
+        },
+        "dataset_name": {
+          "type": "string",
+          "default": "test_dataset",
+          "description": "Prefix used for naming final output files."
+        }
+      }
+    },
+    "csi_gep_analysis_options": {
+      "title": "CSI-GEP analysis options",
+      "type": "object",
+      "description": "Parameters controlling the CSI-GEP model fitting and rank selection.",
+      "properties": {
+        "numgenes": {
+          "type": "integer",
+          "default": 2000,
+          "description": "Number of highly variable genes used for matrix factorization."
+        },
+        "k_min": {
+          "type": "integer",
+          "default": 3,
+          "description": "Minimum NMF rank to evaluate."
+        },
+        "k_max": {
+          "type": "integer",
+          "default": 10,
+          "description": "Maximum NMF rank to evaluate."
+        },
+        "k_step": {
+          "type": "integer",
+          "default": 1,
+          "description": "Step size between tested NMF ranks."
+        },
+        "n_iter": {
+          "type": "integer",
+          "default": 100,
+          "description": "Number of cNMF iterations to run for each tested rank."
+        },
+        "check_for_rescue": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable rescue of additional programs during the CSI-GEP final selection step."
+        }
+      }
+    }  
+  },
+  "allOf": [
+    {
+      "$ref": "#/$defs/input_output_options"
+    },
+    {
+      "$ref": "#/$defs/csi_gep_analysis_options"
+    }
+  ],
+  "properties": {
+    "python_container": {
+      "type": "string",
+      "default": "ghcr.io/geeleherlab/csi-gep_py:latest",
+      "hidden": true
+    },
+    "r_container": {
+      "type": "string",
+      "default": "ghcr.io/geeleherlab/csi-gep_r:latest",
+      "hidden": true
+    }
+  }
+}

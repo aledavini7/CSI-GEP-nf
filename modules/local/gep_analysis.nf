@@ -9,6 +9,8 @@ process GEP_ANALYSIS {
     path "GEP_results"
 
     script:
+    def k_values_csv = (params.k_min..params.k_max).step(params.k_step).join(',')
+
     """
     mkdir -p merged_input
     for d in ${jaccard_dirs}; do
@@ -21,7 +23,7 @@ process GEP_ANALYSIS {
         merged_input/ \
         ${params.dataset_name} \
         GEP_results/ \
-        ${params.k_list} \
+        ${k_values_csv} \
         ${params.check_for_rescue ? 1 : 0}
     """
 }
