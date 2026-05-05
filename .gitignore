@@ -16,3 +16,4 @@ test_small*.h5ad
 
 # Optional: system/editor junk
 .DS_Store
+bozze/
