@@ -98,6 +98,7 @@ def compute_tpm(input_counts):
     input_counts: one split of raw counts
     """
     tpm = input_counts.copy()
+    tpm.X = tpm.X.astype(np.float64)
     sc.pp.normalize_per_cell(tpm, counts_per_cell_after=1e6)
     return(tpm)
 
